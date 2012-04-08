@@ -40,18 +40,20 @@
                 $.ajax({
                     type: 'POST',
                     url: '/api/tilota/game-history/',
-                    data: '{"request":"'+$('#cmd').html()+'", "game":'+gameId+'}',
+                    data: '{"request":"'+$('#cmd').val()+'", "game":'+gameId+'}',
                     contentType:"application/json; charset=utf-8",
                     dataType: 'json',
                     success: function(data) {
                         $.ajax({
                             url: '/api/tilota/game-history/',
                             success: function(data) {
-                                var text = "";
-                                for(i = 0; i<data.objects.length;i++) {
-                                    text = text+data.objects[i].text+" ";
-                                }
-                                $('#consoleDisplay').html(text);
+                                console.log($('#cmd').html());
+                                //var text = "";
+                                //for(i = 0; i<data.objects.length;i++) {
+                                //    text = text+data.objects[i].text+" ";
+                                //}
+
+                                $('#consoleDisplay').html(data.objects[data.objects.length-1].text);
                             }
                         })
 
