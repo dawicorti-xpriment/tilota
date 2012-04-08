@@ -1,20 +1,56 @@
 <html>
   <head>
-    <script language="text/javascript" src="{{ STATIC_URL }}js/jquery-1.7.2.min.js" />
-    <script language="text/javascript">
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $.ajax({
+              url: '/api/tilota/game',
+              success: function(data) {
+                if (data.objects.length == 0) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/tilota/game/',
+                        data: '{"info":1}',
+                        contentType:"application/json; charset=utf-8",
+                        dataType: 'json',
+                        success: function(){
+                            console.log("posted");
+                        },
+                        failure: function() {
+                            console.log('failed to post');
+                        }
+                    })
+                }
+                //$('#consoleDisplay').html(data.objects);
+              },
+              failure: function() {
+                    console.log('ça marche pas');
+              }
+            });
+        	   $("#sendInstructionForm").submit( function() {
+                $.ajax({
+                  url: '/api/tilota/game',
+                  success: function(data) {
+                    console.log(data);
+                    $('#consoleDisplay').html(data.meta.limit);
+                  },
+                  failure: function() {
+                        console.log('ça marche pas');
+                  }
+                });
+            })
 
+        })
     </script>
   </head>
   <body>
-    <form method='post' action='#'>
-      <table>
-        <tr>
-          <td><textarea name="text"></textarea></td>
-        </tr>
-        <tr>
-          <td><input type="text" name="cmd" /></td>
-        </tr>
-      </table>
+    <form method='post' id="sendInstructionForm" action="/api/tilota/game/">
+        {% csrf_token %}
+        <textarea id="consoleDisplay" name="text"></textarea>
+        <div>
+            <input type="text" name="cmd" />
+            <input type="submit" name="send" value="send"/>
+        </div>
     </form>
   </body>
 </html>
