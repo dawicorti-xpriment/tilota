@@ -12,6 +12,15 @@ __all__ = (
 )
 
 
+class ResourceAuthentication(BasicAuthentication):
+
+    def is_authenticated(self, request, **kwargs):
+        if request.user.is_authenticated():
+            return True
+        return super(ResourceAuthentication, self).is_authenticated(
+                                                        request, **kwargs)
+
+
 class OnlyUserContentAuthorization(DjangoAuthorization):
 
     def apply_limits(self, request, object_list):
@@ -27,7 +36,7 @@ class GameInfoResource(ModelResource):
         queryset = models.GameInfo.objects.all()
         resource_name = 'game-info'
         allowed_methods = ['get']
-        authentication = BasicAuthentication()
+        authentication = ResourceAuthentication()
         authorization = DjangoAuthorization()
 
 
@@ -37,7 +46,7 @@ class GameResource(ModelResource):
         queryset = models.Game.objects.all()
         resource_name = 'game'
         allowed_methods = ['get', 'post', 'put', 'delete']
-        authentication = BasicAuthentication()
+        authentication = ResourceAuthentication()
         authorization = OnlyUserContentAuthorization()
 
     def hydrate(self, bundle):
@@ -54,7 +63,7 @@ class GameHistoryResource(ModelResource):
         queryset = models.GameHistory.objects.all()
         resource_name = 'game-history'
         allowed_methods = ['get', 'post']
-        authentication = BasicAuthentication()
+        authentication = ResourceAuthentication()
         authorization = DjangoAuthorization()
 
     def hydrate(self, bundle):
