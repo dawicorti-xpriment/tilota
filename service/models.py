@@ -7,6 +7,7 @@ __all__ = ('GameInfo', 'Game', 'GameHistory')
 class GameInfo(models.Model):
     name = models.CharField(max_length=32)
     cmd = models.CharField(max_length=32)
+    first_request = models.CharField(max_length=256)
 
 
 class Game(models.Model):

@@ -45,7 +45,7 @@ class GameResource(ModelResource):
     class Meta:
         queryset = models.Game.objects.all()
         resource_name = 'game'
-        allowed_methods = ['get', 'post', 'put', 'delete']
+        allowed_methods = ['get', 'post']
         authentication = ResourceAuthentication()
         authorization = OnlyUserContentAuthorization()
 

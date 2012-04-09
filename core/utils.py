@@ -44,7 +44,7 @@ def play(game_id, cmd):
     formated_text = ''
     for line in lines:
         if end_of_text_reached:
-            if re.compile('(|[^\w])%s(|[^\w])' % cmd).search(line):
+            if re.compile('(|[^\w])(%s|gzip)(|[^\w])' % cmd).search(line):
                 break
             else:
                 formated_text = line + '\n' + formated_text
