@@ -1,80 +1,18 @@
 <html>
   <head>
     <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready( function () {
-            var gameId = -1;
-            $.ajax({
-              url: '/api/tilota/game/',
-              success: function(data) {
-                if (data.objects.length == 0) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/api/tilota/game/',
-                        data: '{"info":1}',
-                        contentType:"application/json; charset=utf-8",
-                        dataType: 'json',
-                        success: function(){
-                            $.ajax({
-                                url: '/api/tilota/game',
-                                success: function(data) {
-                                    gameId = data.objects[0].id;
-                                }
-                            })
-                        },
-                        failure: function() {
-                            console.log('failed to post');
-                        }
-                    })
-                } else {
-                    gameId = data.objects[0].id;
-                }
-                //$('#consoleDisplay').html(data.objects);
-              },
-              failure: function() {
-                    console.log('ça marche pas');
-              }
-            });
-
-        	   $("#sendInstructionForm").submit( function(e) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/tilota/game-history/',
-                    data: '{"request":"'+$('#cmd').val()+'", "game":'+gameId+'}',
-                    contentType:"application/json; charset=utf-8",
-                    dataType: 'json',
-                    success: function(data) {
-                        $.ajax({
-                            url: '/api/tilota/game-history/',
-                            success: function(data) {
-                                console.log($('#cmd').html());
-                                //var text = "";
-                                //for(i = 0; i<data.objects.length;i++) {
-                                //    text = text+data.objects[i].text+" ";
-                                //}
-
-                                $('#consoleDisplay').html(data.objects[data.objects.length-1].text);
-                            }
-                        })
-
-                    },
-                    failure: function() {
-                        console.log('ça marche pas');
-                    }
-                });
-                return (false);
-            })
-
-        })
-    </script>
+    <script type="text/javascript" src="/static/js/tilota.js"></script>
+<link rel="stylesheet" href="/static/css/tilota.css" media="screen,projection" type="text/css" />
+    <title>The Incredible Land Of Text-based Adventuress</title>
   </head>
   <body>
+    <img src="/static/img/ban.png" />
     <form method='post' id="sendInstructionForm" action="/api/tilota/game/" >
         {% csrf_token %}
-        <textarea id="consoleDisplay" name="text" style="width:250px; height:300px;"></textarea>
+        <textarea id="consoleDisplay" name="text"></textarea>
         <div>
             <input type="text" name="cmd" id="cmd"/>
-            <input type="submit" name="send" value="send"/>
+            <input type="submit" name="send" value="send" id="send"/>
         </div>
     </form>
   </body>
