@@ -139,5 +139,5 @@ LOGGING = {
 
 }
 
-IPC_PATH = os.path.join('/var/tilota')
-DAEMON_INBOX = 'ipc://%s/daemon.ipc' % IPC_PATH
+CACHE_PATH = os.path.join(os.path.dirname(__file__), 'cache')
+DAEMON_INBOX = 'ipc://%s/daemon.ipc' % CACHE_PATH

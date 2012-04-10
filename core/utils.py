@@ -8,7 +8,7 @@ from tilota.core.console import Console
 
 
 def create_new_game(game_cmd):
-    tmp_ipc = 'ipc://%s/%s.ipc' % (settings.IPC_PATH, str(uuid.uuid1()))
+    tmp_ipc = 'ipc://%s/%s.ipc' % (settings.CACHE_PATH, str(uuid.uuid1()))
     tmp_socket = zmq.Socket(zmq.Context(), zmq.PULL)
     tmp_socket.bind(tmp_ipc)
     daemon_socket = zmq.Socket(zmq.Context(), zmq.PUSH)
@@ -25,13 +25,13 @@ def create_new_game(game_cmd):
 
 
 def play(game_id, cmd):
-    tmp_ipc = 'ipc://%s/%s.ipc' % (settings.IPC_PATH, str(uuid.uuid1()))
+    tmp_ipc = 'ipc://%s/%s.ipc' % (settings.CACHE_PATH, str(uuid.uuid1()))
     tmp_socket = zmq.Socket(zmq.Context(), zmq.PULL)
     tmp_socket.bind(tmp_ipc)
     daemon_socket = zmq.Socket(zmq.Context(), zmq.PUSH)
     daemon_socket.connect(settings.DAEMON_INBOX)
     game = Console(os.path.join(
-        settings.IPC_PATH,
+        settings.CACHE_PATH,
         'dmtcp_restart_script_%s.sh' % game_id
     ))
     return_text = game.cmd(cmd)
