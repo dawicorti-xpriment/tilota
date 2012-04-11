@@ -34,7 +34,7 @@ class TilotaDaemon(Daemon):
 
     def initialize(self):
         os.environ['DMTCP_CHECKPOINT_DIR'] = settings.CACHE_PATH
-        os.chdir(settings.CACHE_PATH)
+        os.environ['DMTCP_TMPDIR'] = settings.CACHE_PATH
         self.logger = logging.getLogger('Tilota Daemon')
         self.logger.setLevel(logging.DEBUG)
         handler = logging.FileHandler(os.path.join(
@@ -81,7 +81,7 @@ class TilotaDaemon(Daemon):
         response = self._coordinator.cmd('l')
         self.logger.debug('Response to coordinator list : %s', response)
         search_result = re.compile(
-            '[0-9]+\, [\w]+\[%d\]\@[\w]+\,' \
+            '[0-9]+\, [\w]+\[%d\]\@[\w\-]+\,' \
             ' ([\w\-]+)\, RUNNING' % message['pid']
         ).search(response)
         game_id = None
