@@ -19,4 +19,4 @@ class Game(models.Model):
 class GameHistory(models.Model):
     game = models.ForeignKey(Game)
     request = models.CharField(max_length=256)
-    text = models.CharField(max_length=256)
+    text = models.TextField()
