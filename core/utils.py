@@ -20,8 +20,6 @@ def get_logger():
 
 
 def create_new_game(game_cmd):
-    logger = get_logger()
-    logger.debug('Create new game with cmd : %s', game_cmd)
     folder = os.path.abspath(
         os.path.join(
             settings.CACHE_PATH,
@@ -32,8 +30,8 @@ def create_new_game(game_cmd):
         os.makedirs(folder)
     except:
         pass
-    game = Console('dmtcp_checkpoint -q -q %s' % game_cmd, cwd=folder)
-    os.system('dmtcp_command -bc')
+    game = Console('dmtcp_checkpoint -q -q' % game_cmd, cwd=folder)
+    Console('dmtcp_command -bc', cwd=folder)
     checkpoint_path = None
     for file_name in os.listdir(folder):
         if file_name.startswith('ckpt_'):

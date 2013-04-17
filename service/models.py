@@ -12,7 +12,7 @@ class GameInfo(models.Model):
 
 class Game(models.Model):
     user = models.ForeignKey(User)
-    dmtcp_id = models.CharField(max_length=32, default=None)
+    dmtcp_id = models.TextField()
     info = models.ForeignKey(GameInfo)
 
 
