@@ -6,9 +6,10 @@ class Console(object):
 
     TIMEOUT = 0.2
 
-    def __init__(self, prog, timeout=TIMEOUT):
-        self.process = pexpect.spawn(prog)
+    def __init__(self, prog, timeout=TIMEOUT, cwd=None):
+        self.process = pexpect.spawn(prog, cwd=cwd)
         self._timeout = timeout
+        self.read()
 
     def read(self):
         response = ''

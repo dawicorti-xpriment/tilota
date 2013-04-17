@@ -1,0 +1,5 @@
+*.pyc
+.tilotarc
+tilota.db
+*.log
+cache
